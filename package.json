@@ -10,29 +10,28 @@
     "rollback"
   ],
   "license": "MIT",
-  "author": "Daniel Sudol <dansudol@yahoo.com>",
   "directories": {
     "doc": "doc",
     "test": "tests"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/danielspaniel/ember-data-change-tracker"
+    "url": "https://github.com/egistix/ember-data-change-tracker"
   },
-  "homepage": "https://github.com/danielspaniel/ember-data-change-tracker",
+  "homepage": "https://github.com/egistix/ember-data-change-tracker",
   "scripts": {
     "build": "ember build",
     "start": "ember server",
     "test": "ember try:each"
   },
   "dependencies": {
-    "ember-cli-babel": "^7.4.0"
+    "ember-cli-babel": "^7.4.0",
+    "whatwg-fetch": "^3.3.1"
   },
   "devDependencies": {
     "@ember/optional-features": "^0.7.0",
     "broccoli-asset-rev": "^2.7.0",
-    "ember-fetch": "^6.5.1",
-    "ember-cli": "3.8",
+    "ember-cli": "~3.28.5",
     "ember-cli-app-version": "^2.0.0",
     "ember-cli-dependency-checker": "^3.2.0",
     "ember-cli-eslint": "^4.2.3",
@@ -43,15 +42,16 @@
     "ember-cli-release": "^0.2.9",
     "ember-cli-sri": "^2.1.1",
     "ember-cli-uglify": "^1.2.0",
-    "ember-data": "3.8",
+    "ember-data": "~3.28.5",
     "ember-data-factory-guy": "3.9.4",
-    "ember-data-model-fragments": "4.0.0",
+    "ember-data-model-fragments": "^5.0.0-beta.3",
     "ember-disable-prototype-extensions": "^1.1.0",
     "ember-export-application-global": "^2.0.0",
+    "ember-fetch": "^6.7.2",
     "ember-load-initializers": "^2.0.0",
     "ember-resolver": "5.0.1",
     "ember-sinon": "4.0.0",
-    "ember-source": "3.8",
+    "ember-source": "~3.28.5",
     "ember-source-channel-url": "^1.1.0",
     "ember-try": "^0.2.23",
     "loader.js": "4.7.0"
@@ -61,5 +61,8 @@
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"
+  },
+  "resolutions": {
+    "whatwg-fetch": "3.3.1"
   }
 }
