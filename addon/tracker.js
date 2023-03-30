@@ -1,11 +1,21 @@
-import Ember from 'ember';
-import { didModelChange, didModelsChange, relationShipTransform, relationshipKnownState } from './utilities';
+import { defineProperty, computed } from '@ember/object';
+import { isEmpty } from '@ember/utils';
+import { assert } from '@ember/debug';
+import { getOwner } from '@ember/application';
+import { A } from '@ember/array';
+import { merge } from '@ember/polyfills';
+import {
+  didModelChange,
+  didModelsChange,
+  relationShipTransform,
+  relationshipKnownState
+} from './utilities';
 
-const assign = Ember.assign || Ember.merge;
+const assign = Object.assign || merge;
 export const ModelTrackerKey = '-change-tracker';
 export const RelationshipsKnownTrackerKey = '-change-tracker-relationships-known';
 const alreadyTrackedRegex = /^-mf-|string|boolean|date|^number$/,
-      knownTrackerOpts    = Ember.A(['only', 'auto', 'except', 'trackHasMany', 'enableIsDirty']),
+      knownTrackerOpts    = A(['only', 'auto', 'except', 'trackHasMany', 'enableIsDirty']),
       defaultOpts         = {trackHasMany: true, auto: false, enableIsDirty: false};
 
 /**
@@ -20,7 +30,7 @@ export default class Tracker {
    * @returns {*}
    */
   static container(model) {
-    return Ember.getOwner ? Ember.getOwner(model.store) : model.store.container;
+    return getOwner ? getOwner(model.store) : model.store.container;
   }
 
   /**
@@ -168,9 +178,9 @@ export default class Tracker {
     let opts = assign({}, defaultOpts, envConfig, modelConfig);
 
     let unknownOpts = Object.keys(opts).filter((v) => !knownTrackerOpts.includes(v));
-    Ember.assert(`[ember-data-change-tracker] changeTracker options can have
+    assert(`[ember-data-change-tracker] changeTracker options can have
       'only', 'except' , 'auto', 'enableIsDirty' or 'trackHasMany' but you are declaring: ${unknownOpts}`,
-      Ember.isEmpty(unknownOpts)
+      isEmpty(unknownOpts)
     );
 
     return opts;
@@ -279,7 +289,7 @@ export default class Tracker {
     if (info.type === 'attribute') {
       transform = this.transformFn(model, info.name);
 
-      Ember.assert(`[ember-data-change-tracker] changeTracker could not find
+      assert(`[ember-data-change-tracker] changeTracker could not find
       a ${info.name} transform function for the attribute '${key}' in
       model '${model.constructor.modelName}'.
       If you are in a unit test, be sure to include it in the list of needs`,
@@ -547,22 +557,22 @@ export default class Tracker {
       return model.get('hasDirtyAttributes') || model.get('hasDirtyRelations');
     };
 
-    Ember.defineProperty(
+    defineProperty(
       model,
       'hasDirtyAttributes',
-      Ember.computed.apply(Ember, attrs.concat([hasDirtyAttributes]))
+      computed.apply(this, attrs.concat([hasDirtyAttributes]))
     );
 
-    Ember.defineProperty(
+    defineProperty(
       model,
       'hasDirtyRelations',
-      Ember.computed.apply(Ember, relationsObserver.concat([hasDirtyRelations]))
+      computed.apply(this, relationsObserver.concat([hasDirtyRelations]))
     );
 
-    Ember.defineProperty(
+    defineProperty(
       model,
       'isDirty',
-      Ember.computed.apply(Ember, ['hasDirtyAttributes', 'hasDirtyRelations', isDirty])
+      computed.apply(this, ['hasDirtyAttributes', 'hasDirtyRelations', isDirty])
     );
 
   }
