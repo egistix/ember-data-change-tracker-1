@@ -1,7 +1,7 @@
-import Ember from 'ember';
+import Mixin from '@ember/object/mixin';
 
 // EmberData does not serialize hasMany relationships by default
-export default Ember.Mixin.create({
+export default Mixin.create({
   keepValue(record, key) {
     return record.get('isNew') || record.didChange(key);
   },
