@@ -1,5 +1,5 @@
-import Ember from 'ember';
-import Model from 'ember-data/model';
+import { assign } from '@ember/polyfills';
+import Model from '@ember-data/model';
 import Tracker from './tracker';
 
 Model.reopen({
@@ -40,7 +40,7 @@ Model.reopen({
    * @returns {*}
    */
   modelChanges() {
-    let changed = Ember.assign({}, this.changedAttributes());
+    let changed = assign({}, this.changedAttributes());
     let trackerInfo = Tracker.metaInfo(this);
     for (let key in trackerInfo) {
       if (!changed[key] && trackerInfo.hasOwnProperty(key)) {
